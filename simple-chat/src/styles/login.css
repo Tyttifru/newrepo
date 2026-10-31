@@ -1,0 +1,71 @@
+.login-box {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    max-width: 380px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.login-box h2 {
+    margin: 0 0 10px 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #000000;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.login-box h3 {
+    text-align: center;
+    color:#837a7a;
+    font-size: 16px; 
+}
+
+.login-box input.author-input, .login-box input.password-input {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: #f0f2f5;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+.login-box input.author-input:focus, .login-box input.password-input:focus {
+    background-color: #ffffff;
+    border-color: #0077FF; 
+    box-shadow: 0 0 0 4px rgba(0, 119, 255, 0.15);
+}
+
+.login-btn, .registration-btn, .addnewuser-btn, .backtologin-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #0077FF;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 5px;
+}
+
+.login-btn:hover, .registration-btn:hover, .addnewuser-btn:hover, .backtologin-btn:hover  {
+    background-color: #0062d6;
+}
+
+.login-btn:active, .registration-btn:active, .addnewuser-btn:active, .backtologin-btn:active {
+    transform: scale(0.98);
+}
