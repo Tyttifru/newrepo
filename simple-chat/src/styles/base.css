@@ -1,3 +1,30 @@
+/* Цвета для мессенджера */
+:root {
+    /* Основные цвета */
+    --color-primary: #0077FF;        /* Основной синий */
+    --color-primary-hover: #0062d6;  /* Синий при наведении */
+    --color-primary-light: #e5f0ff;  /* Светло-синий фон */
+    
+    /* Текст */
+    --color-text-main: #333333;      /* Основной текст */
+    --color-text-dark: #000000;      /* Заголовки */
+    --color-text-muted: #888888;     /* Серый текст */
+    --color-text-light: #837a7a;     /* Светло-серый (подзаголовки) */
+    --color-message-text: rgb(0, 15, 226); /* Цвет текста сообщений */
+    
+    /* Фоны и поверхности */
+    --color-bg: #f0f2f5;             /* Серый фон страницы */
+    --color-surface: #ffffff;        /* Белый фон карточек */
+    --color-surface-alt: #fafafa;    /* Фон окна чата */
+    --color-glass: rgba(255, 255, 255, 0.15); /* Эффект стекла */
+    
+    /* Границы и всевозможные опасности */
+    --color-border: rgba(25, 25, 25, 0.32);
+    --color-border-light: #e0e0e0;
+    --color-danger: #d32f2f;         /* Красный (удаление) */
+    --color-danger-bg: #ffebee;      /* Светло-красный фон */
+}
+
 html {
     box-sizing: border-box;
 }

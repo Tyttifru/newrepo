@@ -34,12 +34,11 @@ function initState() {
     const authorSave = getCurrentUser();
 
     if (authorSave) {
-    loginName.value = authorSave;
-    showChat(loginScreen, registerScreen, chatScreen);
-    renderMessages(listmessages, messageContainer);
-    }
-     else {
-    showLogin(loginScreen, registerScreen, chatScreen);
+        loginName.value = authorSave;
+        showChat(loginScreen, registerScreen, chatScreen);
+        renderMessages(listmessages, messageContainer);
+    } else {
+        showLogin(loginScreen, registerScreen, chatScreen);
     }
 }
 
@@ -116,8 +115,9 @@ loginBtn.addEventListener('click', function() {
         showChat(loginScreen, registerScreen, chatScreen);
         renderMessages(listmessages, messageContainer);
         loginPass.value = ''
+    } else {
+        alert("Неверное имя или пароль!") 
     }
-        else { alert("Неверное имя или пароль!") }
 });
 
 logoutBtn.addEventListener('click', function() {
