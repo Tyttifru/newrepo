@@ -1,4 +1,5 @@
 @import './styles/base.css';
 @import './styles/header.css';
 @import './styles/login.css';
+@import './styles/chat-list.css';
 @import './styles/chat.css';
