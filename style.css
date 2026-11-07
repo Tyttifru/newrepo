@@ -57,6 +57,13 @@ body {
 .screen.active {
     display: flex;
 }
+
+@media (max-width: 600px) {
+    .screen {
+        padding-top: 60px;
+        box-sizing: border-box; 
+    }
+}
 .vk-header {
     position: fixed;
     top: 0;
@@ -125,6 +132,25 @@ body {
     color: var(--color-surface)
 }
 
+@media (max-width: 600px) {
+    .vk-header {
+        padding-right: 70px; 
+        height: 50px;
+    }
+
+    .vk-title {
+        font-size: 14px;
+        max-width: 100%; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 4px 10px;
+    }
+
+    .logoutbtn {
+        top: 5px;
+    }
+}
 .login-box {
     background-color: var(--color-surface);
     padding: 40px 30px;
