@@ -57,3 +57,10 @@ body {
 .screen.active {
     display: flex;
 }
+
+@media (max-width: 600px) {
+    .screen {
+        padding-top: 60px;
+        box-sizing: border-box; 
+    }
+}
