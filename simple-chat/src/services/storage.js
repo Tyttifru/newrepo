@@ -29,3 +29,15 @@ export function getRegisteredUsers () {
 export function saveRegisteredUsers (users) {
     localStorage.setItem('users', JSON.stringify(users))
 }
+
+export function saveCurrentScreen(screenName) {
+    localStorage.setItem('currentScreen', screenName);
+}
+
+export function getCurrentScreen() {
+    return localStorage.getItem('currentScreen') || 'list'; 
+}
+
+export function removeCurrentScreen() {
+    localStorage.removeItem('currentScreen');
+}
