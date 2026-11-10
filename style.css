@@ -638,6 +638,7 @@ body {
     outline: none;
     font: inherit;
     transition: all 0.2s ease-in-out;
+    font-size: 16px; /* перебиваю inherit против зума на айфоне */
 }
 
 .form-input:focus {
@@ -802,6 +803,7 @@ body {
         border-radius: 0;   /* Убираем скругления (на телефоне они не нужны) */
         border: none;       /* Убираем рамки */
         box-shadow: none;   /* Убираем тень */
+        overflow: hidden;   /* чтобы форма не выталкивала экран */
     }
     
     /* Чуть уменьшаем отступы, чтобы поместилось больше контента */
