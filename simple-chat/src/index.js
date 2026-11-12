@@ -1,223 +1,209 @@
 import './index.css';
 
-import { getMessages, saveMessages, clearMessagesStorage, getCurrentUser, 
-        saveCurrentUser, removeCurrentUser, getRegisteredUsers, saveRegisteredUsers,
-        saveCurrentScreen, getCurrentScreen, removeCurrentScreen 
-        } from './services/storage.js';
-
-import { renderMessages, addMessage, showChat, showChatList, showLogin, showRegister, renderChatList } from './ui/view.js';
+import { getMessages, saveMessages, clearMessagesStorage, getCurrentUser, saveCurrentUser, removeCurrentUser, getRegisteredUsers, saveRegisteredUsers, saveCurrentScreen, getCurrentScreen, removeCurrentScreen } from './services/storage.js';
 
 import { mockChats } from './services/mocks.js';
 
+import { showLogin, loginForm, toRegistrationBtn, loginName, loginPass } from './ui/login.js';
+import { showRegister, registerForm, backBtn, regName, regPass } from './ui/register.js';
+import { showChatList, renderChatList, chatListContainer, chatListBox, burgerBtn, dropdownMenu, listSearchContainer, listSearchBtn, listSearchInput } from './ui/chatList.js';
+import { showChat, renderMessages, addMessage, form, input, messageContainer, backToChatListBtn, chatBurgerBtn, chatDropdown, clearChatBtn, chatSearchContainer, chatSearchBtn, chatSearchInput } from './ui/chat.js';
+
 const logoutBtn = document.querySelector('.logoutbtn');
 
-const loginScreen = document.querySelector('#login-screen');
-const loginName = document.querySelector('#login-name');
-const loginPass = document.querySelector('#login-password')
-const loginForm = document.querySelector('#login-form')
-const toRegistrationBtn = document.querySelector('#to-register-btn')
+let listmessages = [];
 
-const regName = document.querySelector('#reg-name')
-const regPass = document.querySelector('#reg-password')
-const registerForm = document.querySelector('#register-form')
-const backBtn = document.querySelector('#back-to-login-btn')
+function isValidInput(name, password) {
+    if (!name || !password) {
+        alert("Введите имя и пароль!");
+        return false;
+    }
+    return true;
+}
 
-const chatListScreen = document.querySelector('#chat-list-screen')
-const chatListContainer = document.querySelector('.chat-list-container')
-const burgerBtn = document.querySelector('.burger-btn');
-const dropdownMenu = document.querySelector('#burger-dropdown')
-const listSearchContainer = document.querySelector('#search-container');
-const listSearchBtn = document.querySelector('#search-btn');
-const listSearchInput = document.querySelector('.search-input');
-
-const form = document.querySelector('.form');
-const input = document.querySelector('.form-input');
-const messageContainer = document.querySelector('.message');
-const chatScreen = document.querySelector('#chat-screen');
-const backToChatListBtn = document.querySelector('.back-to-list-btn')
-const chatBurgerBtn = document.querySelector('.chat-burger-btn');
-const chatDropdown = document.querySelector('#chat-dropdown');
-const clearChatBtn = document.querySelector('#clear-chat-btn')
-const chatSearchContainer = document.querySelector('#chat-search-container');
-const chatSearchBtn = document.querySelector('#chat-search-btn');
-const chatSearchInput = document.querySelector('#chat-search-input')
-
-
-let listmessages = []
-
-function initState() {
-
-    listmessages = getMessages();
-    const authorSave = getCurrentUser();
-
-    renderChatList(mockChats, chatListContainer)
-
-    if (authorSave) {
-        loginName.value = authorSave;
-
-        const savedScreen = getCurrentScreen()
-
-        if (savedScreen === 'chat') {
-            showChat(loginScreen, chatListScreen, chatScreen);
-            renderMessages(listmessages, messageContainer);
-        } else {
-            showChatList(loginScreen, chatListScreen, chatScreen)
-        }
-    
-    } else {
-        showLogin(loginScreen, chatListScreen, chatScreen);
+function toggleSearch(container, input) {
+    container.classList.toggle('active');
+    if (container.classList.contains('active')) {
+        input.focus();
     }
 }
 
-loginForm.addEventListener('submit', function(event) {
-    event.preventDefault()
+function toggleMenu(menu) {
+    menu.classList.toggle('active');
+}
 
-    const name = loginName.value.trim();
-    const password = loginPass.value.trim()
+function initState() {
+    listmessages = getMessages();
+    const authorSave = getCurrentUser();
+    renderChatList(mockChats);
 
-    if (!name || !password) {
-        alert("Введите имя и пароль!");
-        return;
+    if (authorSave) {
+        loginName.value = authorSave;
+        const savedScreen = getCurrentScreen();
+        if (savedScreen === 'chat') {
+            showChat();
+            renderMessages(listmessages);
+        } else {
+            showChatList();
+        }
+    } else {
+        showLogin();
     }
+}
 
-    const users = getRegisteredUsers()
+function handleLoginSubmit(event) {
+    event.preventDefault();
+    const name = loginName.value.trim();
+    const password = loginPass.value.trim();
 
+    if (!isValidInput(name, password)) return;
+
+    const users = getRegisteredUsers();
     if (users[name] === password) {
         saveCurrentUser(name);
-        showChatList(loginScreen, chatListScreen, chatScreen)
-        renderMessages(listmessages, messageContainer);
-        loginPass.value = ''
+        showChatList();
+        renderMessages(listmessages);
+        loginPass.value = '';
     } else {
-        alert("Неверное имя или пароль!") 
+        alert("Неверное имя или пароль!");
     }
-});
+}
 
-toRegistrationBtn.addEventListener('click', function () {
-    showRegister(loginScreen, chatListScreen, chatScreen)
-})
+function handleToRegisterClick() {
+    showRegister();
+}
 
-registerForm.addEventListener('submit', function (event) {
-    event.preventDefault()
+function handleRegisterSubmit(event) {
+    event.preventDefault();
+    const name = regName.value.trim();
+    const password = regPass.value.trim();
 
-    const name = regName.value.trim()
-    const password = regPass.value.trim()
+    if (!isValidInput(name, password)) return;
 
-    if (!name || !password) {
-        alert("Введите имя и пароль!")
-        return
-    }
-
-    const users = getRegisteredUsers()
-
+    const users = getRegisteredUsers();
     if (users[name]) {
-        alert("Пользователь с таким именем уже есть! Введите другое!")
+        alert("Пользователь с таким именем уже есть! Введите другое!");
         return;
     }
 
-    users[name] = password
+    users[name] = password;
     saveRegisteredUsers(users);
+    saveCurrentUser(name);
+    alert("Регистрация прошла успешно!");
+    regName.value = '';
+    regPass.value = '';
+    
+    showChatList();
+}
 
-    alert("Регистрация прошла успешно, можете войти!")
-    regName.value = ''
-    regPass.value = ''
-
-    showLogin(loginScreen, chatListScreen, chatScreen)
-})
-
-backBtn.addEventListener('click', function () {
+function handleBackToLoginClick() {
     loginName.value = '';
-    loginPass.value = ''
-    showLogin(loginScreen, chatListScreen, chatScreen);
-})
+    loginPass.value = '';
+    showLogin();
+}
 
-chatListContainer.addEventListener('click', function(event) {
-    const chatItem = event.target.closest('.chat-item')
+function handleChatListClick(event) {
+    const chatItem = event.target.closest('.chat-item');
+    if (!chatItem) return;
+    saveCurrentScreen('chat');
+    showChat();
+    renderMessages(listmessages);
+}
 
-    if (!chatItem) return
-
-    saveCurrentScreen('chat')
-    showChat(loginScreen, chatListScreen, chatScreen)
-    renderMessages(listmessages, messageContainer)
-})
-
-burgerBtn.addEventListener('click', function(event) {
-    event.stopPropagation()
-    dropdownMenu.classList.toggle('active')
-})
-
-listSearchBtn.addEventListener('click', function(event) {
+function handleBurgerClick(event) {
     event.stopPropagation();
-    listSearchContainer.classList.toggle('active');
-    if (listSearchContainer.classList.contains('active')) {
-        listSearchInput.focus();
-    }
-});
+    toggleMenu(dropdownMenu);
+}
 
-form.addEventListener('submit', function(event) {
+function handleListSearchClick(event) {
+    event.stopPropagation();
+    toggleSearch(listSearchContainer, listSearchInput);
+}
+
+function handleSendMessage(event) {
     event.preventDefault();
     const text = input.value.trim();
     const name = getCurrentUser();
-
     if (!text) return;
 
     const newMessage = {
         text: text,
         author: name,
         time: new Date().toISOString()
-    }
+    };
 
-    listmessages.push(newMessage)
+    listmessages.push(newMessage);
     saveMessages(listmessages);
-    addMessage(newMessage, messageContainer);
+    addMessage(newMessage);
     input.value = '';
-});
+}
 
-backToChatListBtn.addEventListener('click', function() {
-    saveCurrentScreen('list')
-    showChatList(loginScreen, chatListScreen, chatScreen);
-});
+function handleBackToChatListClick() {
+    saveCurrentScreen('list');
+    showChatList();
+}
 
-chatBurgerBtn.addEventListener('click', function(event) {
+function handleChatBurgerClick(event) {
     event.stopPropagation();
-    chatDropdown.classList.toggle('active');
-});
+    toggleMenu(chatDropdown);
+}
 
-chatSearchBtn.addEventListener('click', function(event) {
+function handleChatSearchClick(event) {
     event.stopPropagation();
-    chatSearchContainer.classList.toggle('active');
-    if (chatSearchContainer.classList.contains('active')) {
-        chatSearchInput.focus();
-    }
-});
+    toggleSearch(chatSearchContainer, chatSearchInput);
+}
 
-clearChatBtn.addEventListener('click', function() {
+function handleClearChatClick() {
     clearMessagesStorage();
     listmessages = [];
-    renderMessages(listmessages, messageContainer);
-    chatDropdown.classList.remove('active'); // Закрываем меню
-});
+    renderMessages(listmessages);
+    chatDropdown.classList.remove('active');
+}
 
-logoutBtn.addEventListener('click', function() {
+function handleLogoutClick() {
     removeCurrentUser();
-    removeCurrentScreen()
+    removeCurrentScreen();
     loginName.value = '';
-    loginPass.value = ''
-    showLogin(loginScreen, chatListScreen, chatScreen);
-});
+    loginPass.value = '';
+    showLogin();
+}
 
-document.addEventListener('click', function(event) {
+function handleListClickOutside(event) {
+    if (!dropdownMenu.contains(event.target) && !burgerBtn.contains(event.target)) {
+        dropdownMenu.classList.remove('active');
+    }
     if (!listSearchContainer.contains(event.target)) {
         listSearchContainer.classList.remove('active');
+    }
+}
+
+function handleChatClickOutside(event) {
+    if (!chatDropdown.contains(event.target) && !chatBurgerBtn.contains(event.target)) {
+        chatDropdown.classList.remove('active');
     }
     if (!chatSearchContainer.contains(event.target)) {
         chatSearchContainer.classList.remove('active');
     }
-    if (!chatDropdown.contains(event.target) && !chatBurgerBtn.contains(event.target)) {
-        chatDropdown.classList.remove('active');
-    }
-    if (!dropdownMenu.contains(event.target) && !burgerBtn.contains(event.target)) {
-        dropdownMenu.classList.remove('active')
-    }
-});
+}
 
-initState()
+loginForm.addEventListener('submit', handleLoginSubmit);
+toRegistrationBtn.addEventListener('click', handleToRegisterClick);
+registerForm.addEventListener('submit', handleRegisterSubmit);
+backBtn.addEventListener('click', handleBackToLoginClick);
+
+chatListContainer.addEventListener('click', handleChatListClick);
+burgerBtn.addEventListener('click', handleBurgerClick);
+listSearchBtn.addEventListener('click', handleListSearchClick);
+
+form.addEventListener('submit', handleSendMessage);
+backToChatListBtn.addEventListener('click', handleBackToChatListClick);
+chatBurgerBtn.addEventListener('click', handleChatBurgerClick);
+chatSearchBtn.addEventListener('click', handleChatSearchClick);
+clearChatBtn.addEventListener('click', handleClearChatClick);
+
+logoutBtn.addEventListener('click', handleLogoutClick);
+
+chatListBox.addEventListener('click', handleListClickOutside);
+form.addEventListener('click', handleChatClickOutside);
+
+initState();

@@ -58,6 +58,11 @@ body {
     display: flex;
 }
 
+.material-symbols-outlined {
+    font-size: 30px;
+    font-variation-settings: 'wght' 400, 'FILL' 0, 'GRAD' 0, 'opsz' 24;
+}
+
 @media (max-width: 600px) {
     .screen {
         padding-top: 60px;
